@@ -35,6 +35,11 @@ namespace ManageProductsLib
 
     public static class LibFunctions
     {
+        public static void TESTFUNC()
+        {
+
+        }
+
         public static bool CheckBarcode(string barcode, ref string ErrorMsg)
         {
             return false;
