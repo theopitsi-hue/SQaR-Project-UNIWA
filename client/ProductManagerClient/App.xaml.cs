@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using ManageProductsLib;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,6 +10,7 @@ namespace ProductManagerClient
     /// </summary>
     public partial class App : Application
     {
+       
     }
 
 }

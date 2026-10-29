@@ -8,4 +8,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="ManageProductsLib">
+      <HintPath>..\..\lib\ManageProductsLib\bin\Debug\net8.0\ManageProductsLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

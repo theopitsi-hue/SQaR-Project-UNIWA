@@ -1,4 +1,6 @@
-﻿namespace ManageProductsLib
+﻿using System.Collections;
+
+namespace ManageProductsLib
 {
     public class Product
     {
