@@ -4,9 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProductManagerClient"
+        xmlns:controls="clr-namespace:ProductManagerClient.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <TabControl>
+            <TabItem Header ="Καταχώρηση Προϊόντος">
+                <controls:AddProductControl/>
+            </TabItem>
+            <TabItem Header = "Αποθήκη &amp; Τιμολόγηση ">
+                controls:InventoryControl/>
+            </TabItem>
+            <TabItem Header="Αναζήτηση &amp; Ελλείψεις">
+                controls:SearchOrderControl/>
+            </TabItem>
+
+
+        </TabControl>
 
     </Grid>
 </Window>
