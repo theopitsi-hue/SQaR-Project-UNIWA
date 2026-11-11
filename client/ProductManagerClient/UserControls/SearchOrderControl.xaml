@@ -7,6 +7,33 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="20" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            
+            <RowDefinition Height="*"/>
+            
+            <RowDefinition Height="Auto"/>
+            
+            <RowDefinition Height="*"/>
+    
+        </Grid.RowDefinitions>
 
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Αναζήτηση βάσει Χώρας:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+            <TextBox x:Name="txtSearchCountry" Width="150" Height="25" VerticalContentAlignment="Center"/>
+            <Button x:Name="btnSearchCountry" Content="Αναζήτηση" Width="90" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgCountryProducts" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True" Margin="0,0,0,20"/>
+
+       
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Όριο Ασφαλείας Αποθέματος:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+            <TextBox x:Name="txtStockLimit" Width="80" Height="25" VerticalContentAlignment="Center"/>
+            <Button x:Name="btnFindShortages" Content="Έλεγχος Ελλείψεων" Width="120" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgShortages" Grid.Row="3" AutoGenerateColumns="True" IsReadOnly="True"/>
     </Grid>
 </UserControl>

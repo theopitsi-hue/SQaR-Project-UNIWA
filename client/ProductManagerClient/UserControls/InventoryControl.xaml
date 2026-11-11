@@ -7,6 +7,61 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="20" Background="White">
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+
+        <DataGrid x:Name="dgProducts" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,20">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="*"/>
+                <DataGridTextColumn Header="Κατηγορία" Binding="{Binding Category}" Width="*"/>
+                <DataGridTextColumn Header="Χώρα" Binding="{Binding Country}" Width="*"/>
+                <DataGridTextColumn Header="Απόθεμα" Binding="{Binding Stock}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <GroupBox Grid.Row="1" Header="Ανάλυση Κόστους Επιλεγμένου Προϊόντος" Margin="0,0,0,20" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Αρχική Τιμή:" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="lblInitialPrice" Text="0.00 €"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Με Προμήθεια &amp; ΦΠΑ:" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="lblPriceWithTaxes" Text="0.00 €"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Ποσό Έκπτωσης:" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="lblDiscountAmount" Text="0.00 €"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3">
+                    <TextBlock Text="Τελική Τιμή:" FontWeight="Bold" Foreground="#FF007ACC" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="lblFinalPrice" Text="0.00 €" FontWeight="Bold" Foreground="#FF007ACC" FontSize="14"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="Συνολικό Κόστος Αποθήκης: " FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock x:Name="lblTotalWarehouseCost" Text="0.00 €" FontSize="18" FontWeight="Bold" Foreground="Green" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

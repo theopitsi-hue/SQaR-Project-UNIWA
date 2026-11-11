@@ -13,10 +13,10 @@
                 <controls:AddProductControl/>
             </TabItem>
             <TabItem Header = "Αποθήκη &amp; Τιμολόγηση ">
-                controls:InventoryControl/>
+                <controls:InventoryControl/>
             </TabItem>
             <TabItem Header="Αναζήτηση &amp; Ελλείψεις">
-                controls:SearchOrderControl/>
+                <controls:SearchOrderControl/>
             </TabItem>
 
 
