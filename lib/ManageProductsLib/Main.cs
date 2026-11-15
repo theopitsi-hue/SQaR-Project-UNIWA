@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace ManageProductsLib
 {
@@ -26,8 +27,8 @@ namespace ManageProductsLib
 
     public class OrderItem
     {
-        string barcode;
-        int quantity;
+        public string barcode;
+        public int quantity;
         public OrderItem(string barcode, int quantity)
         {
             this.barcode = barcode;
@@ -151,7 +152,7 @@ namespace ManageProductsLib
         public static void CalculateCost(Product Prd, ref double PriceWithSupplyandTaxes, ref double Discount, ref double FinalPrice)
         {
             //5% supply cost added
-            double supplyPrice = Prd.price * 1.05;
+            double supplyPrice = Math.Round(Prd.price * 1.05, 2);
 
             double vatRate = 0.24; //default vat%
 
@@ -165,31 +166,119 @@ namespace ManageProductsLib
                 vatRate = 0.06;
             }
 
-            PriceWithSupplyandTaxes = supplyPrice * (1 + vatRate);
+            PriceWithSupplyandTaxes = Math.Round(supplyPrice * (1 + vatRate), 2);
 
-            Discount = PriceWithSupplyandTaxes * (Prd.discount / 100f);
+            Discount = Math.Round(PriceWithSupplyandTaxes * (Prd.discount / 100f), 2);
 
+            //nai prepei na einai ola strogilopoihmena sta 2 dekadika
             FinalPrice = Math.Round(PriceWithSupplyandTaxes - Discount,2);
         }
 
         public static double CalculateTotalCost(Product[] Prds)
         {
-            return 0;
+            if (Prds==null || Prds.Length == 0)
+                return 0;
+
+            double sum = 0;
+            foreach (var item in Prds)
+            {
+                if (item != null)
+                {
+                    double PriceWithSupplyandTaxes = 0;
+                    double Discount = 0;
+                    double FinalPrice = 0;
+                    CalculateCost(item, ref PriceWithSupplyandTaxes, ref Discount, ref FinalPrice);
+                    sum += (float)FinalPrice;
+                }
+            }
+            return Math.Round(sum,2);
         }
 
         public static Product[] CountryProducts(Product[] Prds, string Country)
         {
-            return null;
+            if (Prds == null || Country == null)
+                return [];
+
+            List<Product> results = new List<Product>();
+
+            foreach (Product prd in Prds)
+            {
+                //enas theos xerei ti fash
+                if (prd != null && prd.country != null &&
+                    prd.country.Normalize().Trim().Equals(Country.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    results.Add(prd);
+                }
+            }
+
+            return [.. results];
         }
 
-        public static Product[] ProductsToOrder(Product[] Prds, int StockLimit, string Country, ref Product[] PrdsToOrder)
+        /// <summary>
+        /// Εντοπίζει προϊόντα μιας χώρας των οποίων το απόθεμα βρίσκεται κάτω
+        /// από το επιθυμητό όριο ασφαλείας(Stock<StockLimit). 
+        /// </summary>
+        public static void ProductsToOrder(Product[] Prds, int StockLimit, string Country, ref Product[] PrdsToOrder)
         {
-            return null;
+            List<Product> result = new List<Product>();
+
+            Product[] cProducts = CountryProducts(Prds, Country);
+
+            foreach (Product prd in cProducts)
+            {
+                if (prd != null && prd.stock < StockLimit)
+                {
+                    result.Add(prd);
+                }
+            }
+
+            PrdsToOrder = [.. result];
         }
 
         public static double CalculateOrder(Product[] StockProducts, OrderItem[] OrderProducts, ref string OrderStatus)
         {
-            return 0;
+            double sumOrderPrice = 0;
+            bool allFoundAndInStock = true;
+            foreach (var orderItem in OrderProducts)
+            {
+                foreach (var stockItem in StockProducts)
+                {
+                    if (!orderItem.barcode.Equals(stockItem.barcode)
+                        || stockItem.stock < orderItem.quantity)
+                    {
+                        //at least one item is not found or not in stock,
+                        //so will mark order as pending
+                        allFoundAndInStock = false;
+                    }
+                    else
+                    {
+                        //found and in stock!
+                        double PriceWithSupplyandTaxes = 0;
+                        double Discount = 0;
+                        double FinalPrice = 0;
+                        CalculateCost(stockItem, ref PriceWithSupplyandTaxes, ref Discount, ref FinalPrice);
+                        
+                        //add it to the sum cost
+                        sumOrderPrice += (int)(FinalPrice * orderItem.quantity);
+                    }
+                }
+            }
+
+            if (!allFoundAndInStock)
+            {
+                OrderStatus = "Pending";
+            }
+            else
+            {
+                OrderStatus = "Executable";
+            }
+
+            if (sumOrderPrice < 50f)
+            {
+                sumOrderPrice += 10; //add shipping cost
+            }
+
+            return Math.Round(sumOrderPrice, 2);
         }
     }
 }
