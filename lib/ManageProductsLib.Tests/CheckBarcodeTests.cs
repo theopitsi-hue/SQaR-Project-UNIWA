@@ -12,13 +12,11 @@
         [DataRow("123456789012", false)]
         [DataRow("12345678901234", false)]
         [DataRow("52012345678A1", false)]
-        public void CheckBarcode_ReturnsExpectedResult(
-            string barcode, bool expected)
+        public void CheckBarcode_ReturnsExpectedResult(string barcode, bool expected)
         {
             string errorMsg = "";
 
-            bool result = LibFunctions.CheckBarcode(
-                barcode, ref errorMsg);
+            bool result = LibFunctions.CheckBarcode(barcode, ref errorMsg);
 
             Assert.AreEqual(expected, result);
         }
